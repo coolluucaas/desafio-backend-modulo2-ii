@@ -1,4 +1,6 @@
 const fs = require('fs');
+const data = require('./banco/data.json');
+const { addBusinessDays } = require('date-fns');
 
 const fsp = fs.promises;
 
@@ -37,7 +39,30 @@ const escreverNoArquivo = async (data) => {
     }
 };
 
+const calcularSubTotal = () => {
+    return data.carrinho.produtos.reduce(
+        (subtotal, produto) => subtotal + produto.preco * produto.quantidade,
+        0
+    );
+};
+
+const calcularDataDeEntrega = () => {
+    return addBusinessDays(new Date(), 15);
+};
+
+const calcularValorDoFrete = () => {
+    console.log(data.carrinho.subtotal);
+    return data.carrinho.subtotal <= 20000 ? 5000 : 0
+};
+
+function abaterItensVendidosDoEstoque() {
+};
+
 module.exports = {
     lerArquivo,
-    escreverNoArquivo
+    escreverNoArquivo,
+    calcularSubTotal,
+    calcularValorDoFrete,
+    calcularDataDeEntrega,
+    abaterItensVendidosDoEstoque
 }
