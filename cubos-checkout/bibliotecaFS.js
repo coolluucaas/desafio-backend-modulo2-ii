@@ -1,5 +1,5 @@
 const fs = require('fs');
-const data = require('./banco/data.json');
+
 const { addBusinessDays } = require('date-fns');
 
 const fsp = fs.promises;
@@ -39,30 +39,118 @@ const escreverNoArquivo = async (data) => {
     }
 };
 
-const calcularSubTotal = () => {
-    return data.carrinho.produtos.reduce(
-        (subtotal, produto) => subtotal + produto.preco * produto.quantidade,
-        0
-    );
+const atualizarValoresCarrinho = (data) => { 
+    
+    const subtotal = data.carrinho.produtos.reduce((subtotal, produto) => subtotal + produto.preco * produto.quantidade,0);
+    data.carrinho.subtotal = subtotal;
+
+    const valorFrete = data.carrinho.subtotal <= 20000 ? 5000 : 0;
+    data.carrinho.valorDoFrete = valorFrete
+
+    data.carrinho.dataDeEntrega = addBusinessDays(new Date(), 15);
+    
+    data.carrinho.totalAPagar = subtotal + valorFrete;
+
+    if(subtotal === 0) {        
+        data.carrinho.dataDeEntrega = null;
+        data.carrinho.valorDoFrete = 0;
+        data.carrinho.totalAPagar = 0;
+    }
 };
 
-const calcularDataDeEntrega = () => {
-    return addBusinessDays(new Date(), 15);
+const validarProdutoAdicionadoAoCarrinho = (produto) => {
+
+    if (!produto.id) {
+        return "O campo 'nome' é obrigatório.";
+    }
+
+    if (!produto.quantidade) {
+        return "O campo 'quantidade' é obrigatório.";
+    }
+
+    if (typeof produto.id !== "number") {
+        return "O campo 'id' deve ser preenchido com um número.";
+    }
+
+    if (typeof produto.quantidade !== "number") {
+        return "O campo 'quantidade' deve ser preenchido com um número.";
+    }
+
+    if (produto.quantidade < 0) {
+        return "O campo 'quantidade' deve ser preenchido com valores positivos."
+    }
 };
 
-const calcularValorDoFrete = () => {
-    console.log(data.carrinho.subtotal);
-    return data.carrinho.subtotal <= 20000 ? 5000 : 0
+const validarModificarProdutoDoCarrinho = (produto) => {
+
+    if (!produto.quantidade) {
+        return "O campo 'quantidade' é obrigatório.";
+    }
+
+    if (typeof produto.quantidade !== "number") {
+        return "O campo 'quantidade' deve ser preenchido com um número.";
+    }
 };
 
-function abaterItensVendidosDoEstoque() {
+const validarFinalizarCompra = (cliente, carrinho) => {
+    //Validação Cliente
+    //Verificação de preenchimento
+    if (!cliente.type) {
+        return "O campo 'type' é obrigatório.";
+    }
+    if (!cliente.country) {
+        return "O campo 'country' é obrigatório.";
+    }
+    if (!cliente.name) {
+        return "O campo 'quantidade' é obrigatório.";
+    }
+    if (!cliente.documents[0].type) {
+        return "O campo 'type' de 'documents' é obrigatório.";
+    }
+    if (!cliente.documents[0].number) {
+        return "O campo 'number' de 'documents' é obrigatório.";
+    }
+    //Verificação de tipo de entrada    
+    if (typeof cliente.type !== "string") {
+        return "O campo 'id' deve ser preenchido com um texto.";
+    }
+    if (typeof cliente.country !== "string") {
+        return "O campo 'country' deve ser preenchido com um texto.";
+    }
+    if (typeof cliente.name !== "string") {
+        return "O campo 'name' deve ser preenchido com um texto.";
+    }
+    if (typeof cliente.documents[0].type !== "string") {
+        return "O campo 'type' de 'documents' deve ser preenchido com um texto.";
+    }
+    if (typeof cliente.documents[0].number !== "string") {
+        return "O campo 'number' de 'documents' deve ser preenchido com um número.";
+    }
+    //Outras Validações
+    if (!cliente.country.length === 2) {
+        return "O campo 'country' deve ser preenchido com um texto de 2 dígitos.";
+    }
+    if (cliente.type !== "individual") {
+        return "Este e-commerce só atende pessoas físicas"
+    }
+    if (!cliente.name.includes(" ")) {
+        return "O campo 'name' deve ser preenchido com nome e sobrenome."
+    }
+    if (!cliente.documents[0].number.match(/[0-9]{11}/g)) {
+        return "O campo 'number' de 'documents' deve ser conter um cpf com 11 dígitos apenas numéricos."
+    }
+
+    //Validação Carrinho
+    if (carrinho.produtos.length === 0) {
+        return "O carrinho está vazio!";
+    }
 };
 
 module.exports = {
     lerArquivo,
-    escreverNoArquivo,
-    calcularSubTotal,
-    calcularValorDoFrete,
-    calcularDataDeEntrega,
-    abaterItensVendidosDoEstoque
+    escreverNoArquivo,   
+    atualizarValoresCarrinho,
+    validarProdutoAdicionadoAoCarrinho,
+    validarModificarProdutoDoCarrinho,
+    validarFinalizarCompra
 }
