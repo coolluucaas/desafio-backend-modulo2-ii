@@ -9,4 +9,4 @@ app.use(intermediarios.logarRequisicao);
 
 app.use(roteador);
 
-app.listen(8000);
+app.listen(8000, console.log('() [] {}'));
