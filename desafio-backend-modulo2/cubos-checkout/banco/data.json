@@ -1,0 +1,95 @@
+{
+    "produtos": [
+        {
+            "id": 1,
+            "nome": "Pipoca para Microondas Manteiga YOKI 50g",
+            "preco": 169,
+            "estoque": 5,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 3,
+            "nome": "Limpador Cif Multiuso 800g Em Pó",
+            "preco": 999,
+            "estoque": 2,
+            "categoria": "Limpeza"
+        },
+        {
+            "id": 4,
+            "nome": "Desinfetante Uso Geral Herbal Omo Frasco 500ml",
+            "preco": 529,
+            "estoque": 79,
+            "categoria": "Limpeza"
+        },
+        {
+            "id": 9,
+            "nome": "Arroz Parboilizado Tipo 1 CAMIL Pacote 5kg",
+            "preco": 2749,
+            "estoque": 7,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 10,
+            "nome": "Feijão Carioca Tipo 1 CAMIL Pacote 1kg",
+            "preco": 799,
+            "estoque": 33,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 11,
+            "nome": "Oléo de Canola QUALITÁ Pet 900ml",
+            "preco": 1199,
+            "estoque": 14,
+            "categoria": "Oleo"
+        },
+        {
+            "id": 13,
+            "nome": "Vassoura de uso interno",
+            "preco": 1490,
+            "estoque": 33,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 14,
+            "nome": "Pá para lixo unid.",
+            "preco": 2990,
+            "estoque": 13,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 15,
+            "nome": "Conjunto de Panelas 5 Peças Classic Antiaderente, Preto",
+            "preco": 39900,
+            "estoque": 12,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 16,
+            "nome": "Tábua de Passar Dobrável",
+            "preco": 18990,
+            "estoque": 12,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 17,
+            "nome": "Lixeira - 3 Litros com Frisos",
+            "preco": 3290,
+            "estoque": 98,
+            "categoria": "Bazar"
+        },
+        {
+            "id": 18,
+            "nome": "Kit Suqueira de Vidro - 4 Litros Agnes 2 Peças",
+            "preco": 19990,
+            "estoque": 2,
+            "categoria": "Bazar"
+        }
+    ],
+    "carrinho": {
+        "subtotal": 0,
+        "dataDeEntrega": null,
+        "valorDoFrete": 0,
+        "totalAPagar": 0,
+        "produtos": []
+    }
+}
